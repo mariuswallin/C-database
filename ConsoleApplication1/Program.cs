@@ -26,12 +26,22 @@ namespace ConsoleApplication1
             }*/
 
             var logic = new StudentLogic();
-            var course = new Course() { Name = "C#" };
+            //var course = new Course() { Name = "C#" };
+            //var course2 = new Course() { Name = "Java" };
 
-            var newId = logic.AddCourse(course);
-            logic.AddStudent(new Student() { FirstName = "Lars" });
+            //var newId = logic.AddCourse(course);
+            //var newIde = logic.AddCourse(course2);
+            //logic.AddStudent(new Student() { FirstName = "Lars" });
+            //logic.AddStudent(new Student() { FirstName = "Kåre" });
 
-            logic.AddStudentToCourse(1, newId);
+            var course2 = new Course() { Name = "Swift" };
+            var newIde = logic.AddCourse(course2);
+            logic.AddStudent(new Student() { FirstName = "Finn" });
+
+            logic.AddStudentToCourse(4, newIde);
+            //logic.AddStudentToCourse(2, newIde);
+
+            Console.WriteLine(logic.GetAllStudents());
         }
     }
 }

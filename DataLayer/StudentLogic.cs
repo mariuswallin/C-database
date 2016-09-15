@@ -7,34 +7,43 @@ using System.Threading.Tasks;
 
 namespace DataLayer
 {
+
     public class StudentLogic
     {
-        public void AddStudent(Student student)
+        private static void HandleDBContext(Action<DataContext> action)
         {
             using (var dataContext = new DataContext())
-            {
+                action(dataContext);
+        }
+
+        private static T HandleDBContext<T>(Func<DataContext, T> function)
+        {
+            using (var dataContext = new DataContext())
+                return function(dataContext);
+        }
+
+        public void AddStudent(Student student)
+        {
+            HandleDBContext(dataContext => {
                 dataContext.Students.Add(student);
                 dataContext.SaveChanges();
-            }                    
+            });
         }
 
         public int AddCourse(Course course)
         {
-            using (var dataContext = new DataContext())
-            {
+            HandleDBContext(dataContext => {
                 dataContext.Courses.Add(course);
                 dataContext.SaveChanges();
 
-                return course.Id;
-            }
+            });
+
+            return course.Id;
         }
 
         public List<Student> GetAllStudents()
         {
-            using (var dataContext = new DataContext())
-            {
-                return dataContext.Students.ToList();
-            }
+            return HandleDBContext(dataContext => dataContext.Students.ToList());
         }
 
         public List<Course> GetAllCourses()
