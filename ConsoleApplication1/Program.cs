@@ -35,13 +35,65 @@ namespace ConsoleApplication1
             //logic.AddStudent(new Student() { FirstName = "Kåre" });
 
             var course2 = new Course() { Name = "Swift" };
-            var newIde = logic.AddCourse(course2);
-            logic.AddStudent(new Student() { FirstName = "Finn" });
+            
+            //var newIde = logic.AddCourse(course2).GetAwaiter().GetResult();
+            //logic.AddStudent(new Student() { FirstName = "Finn" });
 
-            logic.AddStudentToCourse(4, newIde);
+            //logic.AddStudentToCourse(4, newIde);
             //logic.AddStudentToCourse(2, newIde);
 
-            Console.WriteLine(logic.GetAllStudents());
+            //Console.WriteLine(logic.GetAllStudents());
+
+            foreach(var student in logic.GetAllStudents())
+            {
+                Console.WriteLine(student.ToString());
+            }
+
+            logic.GetAllStudents().ForEach(x => Console.WriteLine(x.ToString()));
+
+
+            //var handlers = new List<ICommandItem>();
+            //handlers.Add(new ListStudentCommandHandler(logic));
+
+            var line = Console.ReadLine();
+            while(line != "q")
+            {
+                //    foreach(var handler in handlers)
+                //    {
+                //        handler.HandleCommand(line);
+
+                //    }
+                ParseCommand(line);
+
+                line = Console.ReadLine();
+            }
+
+
+
+        }
+
+        private static void ParseCommand(string command)
+        {
+            switch (command)
+            {
+                case "a":
+                    AddStudent();
+                    break;
+
+                default:
+                    UnknownCommand();
+                    break;
+            }
+        }
+
+        private static void AddStudent()
+        {
+            Console.WriteLine("Student added");
+        }
+
+        private static void UnknownCommand()
+        {
+            Console.WriteLine("Unknown command. Press q for quit");
         }
     }
 }

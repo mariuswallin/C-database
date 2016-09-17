@@ -10,6 +10,10 @@ namespace DataLayer
 
     public class StudentLogic
     {
+
+        private int? SelectedStudent { get; set; }
+
+
         private static void HandleDBContext(Action<DataContext> action)
         {
             using (var dataContext = new DataContext())
@@ -30,12 +34,12 @@ namespace DataLayer
             });
         }
 
-        public int AddCourse(Course course)
+        public async Task<int> AddCourse(Course course)
         {
-            HandleDBContext(dataContext => {
+            await HandleDBContext(async dataContext => {
                 dataContext.Courses.Add(course);
-                dataContext.SaveChanges();
-
+                
+                await dataContext.SaveChangesAsync();
             });
 
             return course.Id;
@@ -61,7 +65,7 @@ namespace DataLayer
 
                 var student = dataContext.Students.SingleOrDefault(x => x.ID == studentId);
                 if (student == null)
-                    throw new Exception($"Student {studentId} not found");
+                    throw new ArgumentException($"Student {studentId} not found");
 
                 var course = dataContext.Courses.SingleOrDefault(x => x.Id == courseId);
                 if(course == null)
