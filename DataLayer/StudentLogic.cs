@@ -32,16 +32,19 @@ namespace DataLayer
                 dataContext.Students.Add(student);
                 dataContext.SaveChanges();
             });
+
+            Console.WriteLine($"{student.Name} ble lagt til");
         }
 
-        public async Task<int> AddCourse(Course course)
+        public int AddCourse(Course course)
         {
-            await HandleDBContext(async dataContext => {
+            HandleDBContext(dataContext => {
                 dataContext.Courses.Add(course);
                 
-                await dataContext.SaveChangesAsync();
+                dataContext.SaveChanges();
             });
 
+            Console.WriteLine($"{course.Name} ble lagt til");
             return course.Id;
         }
 
@@ -52,31 +55,31 @@ namespace DataLayer
 
         public List<Course> GetAllCourses()
         {
-            using (var dataContext = new DataContext())
-            {
-                return dataContext.Courses.ToList();
-            }
+            return HandleDBContext(dataContext => dataContext.Courses.ToList());
         }
 
-        public void AddStudentToCourse(int studentId, int courseId)
+        public bool AddStudentToCourse(int studentId, int courseId)
         {
+
             using (var dataContext = new DataContext())
             {
 
-                var student = dataContext.Students.SingleOrDefault(x => x.ID == studentId);
+                var student = dataContext.Students.SingleOrDefault(x => x.Id == studentId);
                 if (student == null)
-                    throw new ArgumentException($"Student {studentId} not found");
+                    return false;
 
                 var course = dataContext.Courses.SingleOrDefault(x => x.Id == courseId);
-                if(course == null)
-                    throw new Exception($"Course {courseId} not found");
+                if (course == null)
+                    return false;
 
                 student.Courses = new List<Course>();
                 student.Courses.Add(course);
 
                 dataContext.SaveChanges();
-
+                Console.WriteLine($"{student.Name} ble lagt til {course.Name}.");
+                return true;
             }
         }
+
     }
 }

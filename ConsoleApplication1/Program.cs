@@ -12,72 +12,41 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            /*Console.WriteLine("Skriv inn fornavn:");
-            var firstname = Console.ReadLine();
-
-            var logic = new StudentLogic();
-            logic.AddStudent(new Student() { FirstName = firstname });
-
-            Console.WriteLine("Ny student lagt til");
-
-            foreach (var i in logic.GetAllStudents())
+            WriteOptions();
+            var line = Console.ReadLine().ToLower();
+            while (line != "q")
             {
-                Console.WriteLine(i.ToString());
-            }*/
-
-            var logic = new StudentLogic();
-            //var course = new Course() { Name = "C#" };
-            //var course2 = new Course() { Name = "Java" };
-
-            //var newId = logic.AddCourse(course);
-            //var newIde = logic.AddCourse(course2);
-            //logic.AddStudent(new Student() { FirstName = "Lars" });
-            //logic.AddStudent(new Student() { FirstName = "Kåre" });
-
-            var course2 = new Course() { Name = "Swift" };
-            
-            //var newIde = logic.AddCourse(course2).GetAwaiter().GetResult();
-            //logic.AddStudent(new Student() { FirstName = "Finn" });
-
-            //logic.AddStudentToCourse(4, newIde);
-            //logic.AddStudentToCourse(2, newIde);
-
-            //Console.WriteLine(logic.GetAllStudents());
-
-            foreach(var student in logic.GetAllStudents())
-            {
-                Console.WriteLine(student.ToString());
-            }
-
-            logic.GetAllStudents().ForEach(x => Console.WriteLine(x.ToString()));
-
-
-            //var handlers = new List<ICommandItem>();
-            //handlers.Add(new ListStudentCommandHandler(logic));
-
-            var line = Console.ReadLine();
-            while(line != "q")
-            {
-                //    foreach(var handler in handlers)
-                //    {
-                //        handler.HandleCommand(line);
-
-                //    }
                 ParseCommand(line);
-
-                line = Console.ReadLine();
+                line = Console.ReadLine().ToLower();
             }
-
-
-
         }
 
         private static void ParseCommand(string command)
         {
             switch (command)
-            {
-                case "a":
+            { 
+                case "h":
+                    ShowHelp();
+                    break;
+
+                case "c":
+                    AddCourse();
+                    break;
+
+                case "s":
                     AddStudent();
+                    break;
+
+                case "ac":
+                    ListAllCourses();
+                    break;
+
+                case "as":
+                    ListAllStudents();
+                    break;
+
+                case "sc":
+                    AddStudentToCourse();
                     break;
 
                 default:
@@ -86,14 +55,98 @@ namespace ConsoleApplication1
             }
         }
 
-        private static void AddStudent()
+        private static StudentLogic logic = new StudentLogic();
+
+
+        private static void WriteOptions()
         {
-            Console.WriteLine("Student added");
+            Console.WriteLine("Trykk q for quit eller h for hjelp");
         }
 
         private static void UnknownCommand()
         {
-            Console.WriteLine("Unknown command. Press q for quit");
+            Console.WriteLine("Ukjent kommando. Press h for hjelp");
         }
+
+        private static void ShowHelp()
+        {
+            Console.WriteLine(@"Tilgjengelige kommandoer: 
+                                h - hjelp, 
+                                ac - vis alle kurs, 
+                                as - vis alle studenter, 
+                                s - legg til student,
+                                c - legg til kurs, 
+                                sc - legg til student til kurs
+                                q - quit");
+        }
+   
+        private static void AddStudent()
+        {
+            Console.WriteLine("Skriv inn studentnavn:");
+            var name = Console.ReadLine();
+            if (name.Length > 0)
+            {
+                logic.AddStudent(new Student() { Name = name });
+            } else
+            {
+                Console.WriteLine("Du må skrive et studentnavn");
+                AddStudent();
+            }
+        }
+
+        private static void AddCourse()
+        {
+            Console.WriteLine("Skriv inn kursnavn:");
+            var name = Console.ReadLine();
+            if (name.Length > 0)
+            {
+                logic.AddCourse(new Course() { Name = name });
+            }
+            else
+            {
+                Console.WriteLine("Du må skrive et kursnavn");
+                AddCourse();
+            }
+        }
+
+        private static void AddStudentToCourse()
+        {
+            while (true) {
+                ListAllCourses();
+                Console.WriteLine("\n");
+                ListAllStudents();
+                Console.WriteLine("Velg nr studentnr og kursnummer (skilt med mellomrom):");
+                var choice = Console.ReadLine();
+                var arguments = choice.Split(' ');
+                var arg1 = arguments[0];
+                var arg2 = arguments[1];
+                int number;
+                int number2;
+                bool result1 = Int32.TryParse(arg1, out number);
+                bool result2 = Int32.TryParse(arg2, out number2);
+
+                if (result1 && result2 && logic.AddStudentToCourse(number, number2))
+                { 
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Feil eller ugyldig nummer. Prøv igjen");
+                }
+            }
+        }
+
+        private static void ListAllStudents()
+        {
+            Console.WriteLine("StudentListe:");
+            logic.GetAllStudents().ForEach(student => Console.WriteLine(student.ToString()));
+        }
+
+        private static void ListAllCourses()
+        {
+            Console.WriteLine("KursListe:");
+            logic.GetAllCourses().ForEach(course => Console.WriteLine(course.ToString()));
+        }
+
     }
 }
