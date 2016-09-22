@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
-namespace DataLayer.DTO
+namespace StudentService
 {
     public class Student
     {
+        public Student()
+        {
+            Courses = new Collection<Course>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        public virtual ICollection<Course> Courses { get; set; }
 
         public override string ToString()
         {

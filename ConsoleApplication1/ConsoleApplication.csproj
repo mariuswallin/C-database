@@ -53,8 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICommandItem.cs" />
-    <Compile Include="ListStudentCommandHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,9 +61,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+    <ProjectReference Include="..\DataLayer\StudentService.csproj">
       <Project>{81d973c6-e66f-42cf-9005-4aa64ea73f60}</Project>
-      <Name>DataLayer</Name>
+      <Name>StudentService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

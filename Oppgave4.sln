@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{81D973C6-E66F-42CF-9005-4AA64EA73F60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentService", "DataLayer\StudentService.csproj", "{81D973C6-E66F-42CF-9005-4AA64EA73F60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{CA34571F-E4D5-4262-A3B6-3917D5AB4BD4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{548401B0-F3B7-4C40-B91A-DBF5A09AB681}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication1\ConsoleApplication.csproj", "{CA34571F-E4D5-4262-A3B6-3917D5AB4BD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{CA34571F-E4D5-4262-A3B6-3917D5AB4BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA34571F-E4D5-4262-A3B6-3917D5AB4BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA34571F-E4D5-4262-A3B6-3917D5AB4BD4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{548401B0-F3B7-4C40-B91A-DBF5A09AB681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{548401B0-F3B7-4C40-B91A-DBF5A09AB681}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{548401B0-F3B7-4C40-B91A-DBF5A09AB681}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{548401B0-F3B7-4C40-B91A-DBF5A09AB681}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

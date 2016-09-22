@@ -1,18 +1,13 @@
-﻿using DataLayer.DTO;
+﻿using StudentService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataLayer
+namespace StudentService
 {
 
     public class StudentLogic
     {
-
-        private int? SelectedStudent { get; set; }
-
 
         private static void HandleDBContext(Action<DataContext> action)
         {
@@ -32,8 +27,7 @@ namespace DataLayer
                 dataContext.Students.Add(student);
                 dataContext.SaveChanges();
             });
-
-            Console.WriteLine($"{student.Name} ble lagt til");
+  
         }
 
         public int AddCourse(Course course)
@@ -43,8 +37,6 @@ namespace DataLayer
                 
                 dataContext.SaveChanges();
             });
-
-            Console.WriteLine($"{course.Name} ble lagt til");
             return course.Id;
         }
 
@@ -61,24 +53,42 @@ namespace DataLayer
         public bool AddStudentToCourse(int studentId, int courseId)
         {
 
-            using (var dataContext = new DataContext())
-            {
+            if (ValidateInput(studentId, courseId))
+            { 
+                var student = HandleDBContext(dataContext => {
+                    return dataContext.Students.SingleOrDefault(x => x.Id == studentId);                                     
+                });
 
-                var student = dataContext.Students.SingleOrDefault(x => x.Id == studentId);
-                if (student == null)
+                var course = HandleDBContext(dataContext => {
+                    return dataContext.Courses.SingleOrDefault(x => x.Id == courseId);
+                });
+
+                if (course == null || student == null)
                     return false;
 
-                var course = dataContext.Courses.SingleOrDefault(x => x.Id == courseId);
-                if (course == null)
-                    return false;
-
-                student.Courses = new List<Course>();
                 student.Courses.Add(course);
 
-                dataContext.SaveChanges();
-                Console.WriteLine($"{student.Name} ble lagt til {course.Name}.");
+                HandleDBContext(dataContext => {
+                    dataContext.SaveChanges();
+                });
+
+                return true;
+
+            } else
+
+            {
+                return false;
+            }
+        }
+
+    public bool ValidateInput(int x, int y)
+        {
+            if (x.ToString().Length > 0 && y.ToString().Length > 0)
+            {
                 return true;
             }
+
+            return false;
         }
 
     }
