@@ -1,5 +1,4 @@
-﻿using StudentService;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -55,24 +54,18 @@ namespace StudentService
 
             if (ValidateInput(studentId, courseId))
             { 
-                var student = HandleDBContext(dataContext => {
-                    return dataContext.Students.SingleOrDefault(x => x.Id == studentId);                                     
-                });
-
-                var course = HandleDBContext(dataContext => {
-                    return dataContext.Courses.SingleOrDefault(x => x.Id == courseId);
-                });
-
-                if (course == null || student == null)
-                    return false;
-
-                student.Courses.Add(course);
-
-                HandleDBContext(dataContext => {
+                var status = HandleDBContext(dataContext => {
+                    var student = dataContext.Students.SingleOrDefault(x => x.Id == studentId);
+                    var course = dataContext.Courses.SingleOrDefault(x => x.Id == courseId);
+                    if (course == null || student == null)
+                        return false;
+                    student.Courses.Add(course);
                     dataContext.SaveChanges();
+                    return true;
+
                 });
 
-                return true;
+                return status;
 
             } else
 

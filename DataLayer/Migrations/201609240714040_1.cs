@@ -3,7 +3,7 @@ namespace DataLayer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class tester : DbMigration
+    public partial class _1 : DbMigration
     {
         public override void Up()
         {
@@ -20,22 +20,22 @@ namespace DataLayer.Migrations
                 "dbo.Students",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(),
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.StudentCourses",
                 c => new
                     {
-                        Student_ID = c.Int(nullable: false),
+                        Student_Id = c.Int(nullable: false),
                         Course_Id = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Student_ID, t.Course_Id })
-                .ForeignKey("dbo.Students", t => t.Student_ID, cascadeDelete: true)
+                .PrimaryKey(t => new { t.Student_Id, t.Course_Id })
+                .ForeignKey("dbo.Students", t => t.Student_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Courses", t => t.Course_Id, cascadeDelete: true)
-                .Index(t => t.Student_ID)
+                .Index(t => t.Student_Id)
                 .Index(t => t.Course_Id);
             
         }
@@ -43,9 +43,9 @@ namespace DataLayer.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.StudentCourses", "Course_Id", "dbo.Courses");
-            DropForeignKey("dbo.StudentCourses", "Student_ID", "dbo.Students");
+            DropForeignKey("dbo.StudentCourses", "Student_Id", "dbo.Students");
             DropIndex("dbo.StudentCourses", new[] { "Course_Id" });
-            DropIndex("dbo.StudentCourses", new[] { "Student_ID" });
+            DropIndex("dbo.StudentCourses", new[] { "Student_Id" });
             DropTable("dbo.StudentCourses");
             DropTable("dbo.Students");
             DropTable("dbo.Courses");
