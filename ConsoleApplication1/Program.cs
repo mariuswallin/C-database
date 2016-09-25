@@ -112,21 +112,31 @@ namespace ConsoleApplication
                 ListAllStudents();
                 Console.WriteLine("Velg nr studentnr og kursnummer (skilt med mellomrom):");
                 var choice = Console.ReadLine();
-                var arguments = choice.Split(' ');
-                var arg1 = arguments[0];
-                var arg2 = arguments[1];
-                int number;
-                int number2;
-                bool result1 = Int32.TryParse(arg1, out number);
-                bool result2 = Int32.TryParse(arg2, out number2);
-
-                if (result1 && result2 && logic.AddStudentToCourse(number, number2))
-                { 
-                    break;
-                }
-                else
+                try
                 {
-                    Console.WriteLine("Feil eller ugyldig nummer. Prøv igjen");
+                    var arguments = choice.Split(' ');
+                    var arg1 = arguments[0];
+                    var arg2 = arguments[1];
+                    int number;
+                    int number2;
+                    bool result1 = Int32.TryParse(arg1, out number);
+                    bool result2 = Int32.TryParse(arg2, out number2);
+                    if (result1 && result2 && logic.AddStudentToCourse(number, number2))
+                    {
+                        Console.WriteLine("Studenten ble lagt til");
+                        break;
+                    } else
+                    {
+                        Console.WriteLine("-------");
+                        Console.WriteLine("Feil eller ugyldig nummer. Prøv igjen");
+                        Console.WriteLine("-------");
+                    }
+
+                } catch(IndexOutOfRangeException)
+                {
+                    Console.WriteLine("-------");
+                    Console.WriteLine("Fyll in to tall");
+                    Console.WriteLine("-------");
                 }
             }
         }
@@ -142,6 +152,5 @@ namespace ConsoleApplication
             Console.WriteLine("KursListe:");
             logic.GetAllCourses().ForEach(course => Console.WriteLine(course.ToString()));
         }
-
     }
 }
